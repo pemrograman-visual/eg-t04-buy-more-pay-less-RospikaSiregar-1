@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="4.2">
+    <attributes>
+        <attribute name="name" value="T04"/>
+        <attribute name="authors" value="Lenovo"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2024-11-06 04:49:33 PM"/>
+        <attribute name="created" value="TGVub3ZvO0xBUFRPUC1RUTlFUzhTUjsyMDI0LTExLTA2OzAzOjE0OjQ2IFBNOzMwMDY="/>
+        <attribute name="edited" value="TGVub3ZvO0xBUFRPUC1RUTlFUzhTUjsyMDI0LTExLTA2OzA0OjQ5OjMzIFBNOzE7MzExOQ=="/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="arrISBN" type="String" array="True" size="3"/>
+            <declare name="ISBN" type="String" array="False" size=""/>
+            <declare name="arrharga" type="Real" array="True" size="3"/>
+            <declare name="harga" type="Real" array="False" size=""/>
+            <declare name="arrquantity" type="Integer" array="True" size="3"/>
+            <declare name="quantity" type="Integer" array="False" size=""/>
+            <declare name="totalharga" type="Real" array="False" size=""/>
+            <declare name="continue" type="Boolean" array="False" size=""/>
+            <declare name="x, y" type="Integer" array="False" size=""/>
+            <assign variable="x" expression="3"/>
+            <for variable="y" start="0" end="x-1" direction="inc" step="1">
+                <assign variable="arrISBN[y]" expression="&quot;&quot;"/>
+                <assign variable="arrharga[y]" expression="0"/>
+                <assign variable="arrquantity[y]" expression="0"/>
+            </for>
+            <assign variable="totalharga" expression="0"/>
+            <assign variable="continue" expression="true"/>
+            <while expression="continue=true">
+                <input variable="ISBN"/>
+                <if expression="ISBN=&quot;---&quot;">
+                    <then>
+                        <assign variable="continue" expression="false"/>
+                    </then>
+                    <else>
+                        <input variable="harga"/>
+                        <input variable="quantity"/>
+                        <declare name="exist" type="Boolean" array="False" size=""/>
+                        <assign variable="exist" expression="false"/>
+                        <assign variable="y" expression="0"/>
+                        <do expression="!exist&amp;&amp;y&lt;x">
+                            <if expression="arrISBN[y]==ISBN">
+                                <then>
+                                    <assign variable="arrquantity[y]" expression="arrquantity[y]+quantity"/>
+                                    <assign variable="exist" expression="true"/>
+                                </then>
+                                <else>
+                                    <assign variable="y" expression="y+1"/>
+                                </else>
+                            </if>
+                        </do>
+                        <if expression="!exist">
+                            <then>
+                                <declare name="tepat" type="Boolean" array="False" size=""/>
+                                <assign variable="tepat" expression="false"/>
+                                <declare name="z" type="Integer" array="False" size=""/>
+                                <assign variable="z" expression="0"/>
+                                <do expression="!tepat&amp;&amp;(z&lt;x)">
+                                    <if expression="arrquantity[z]=0">
+                                        <then>
+                                            <assign variable="tepat" expression="true"/>
+                                        </then>
+                                        <else>
+                                            <assign variable="z" expression="z+1"/>
+                                        </else>
+                                    </if>
+                                </do>
+                                <assign variable="arrISBN[z]" expression="ISBN"/>
+                                <assign variable="arrharga[z]" expression="harga"/>
+                                <assign variable="arrquantity[z]" expression="quantity"/>
+                                <assign variable="z" expression="z+1"/>
+                            </then>
+                            <else/>
+                        </if>
+                    </else>
+                </if>
+            </while>
+            <for variable="y" start="0" end="x-1" direction="inc" step="1">
+                <declare name="hargaproduk" type="Real" array="False" size=""/>
+                <assign variable="hargaproduk" expression="arrharga[y]"/>
+                <if expression="arrquantity[y]&gt;=20">
+                    <then>
+                        <assign variable="hargaproduk" expression="arrharga[y]-(12/100*arrharga[y])"/>
+                    </then>
+                    <else>
+                        <if expression="arrquantity[y]&gt;=10">
+                            <then>
+                                <assign variable="hargaproduk" expression="arrharga[y]-(10/100*arrharga[y])"/>
+                            </then>
+                            <else>
+                                <if expression="arrquantity[y]&gt;=5">
+                                    <then>
+                                        <assign variable="hargaproduk" expression="arrharga[y]-(2/100*arrharga[y])"/>
+                                    </then>
+                                    <else/>
+                                </if>
+                            </else>
+                        </if>
+                        <assign variable="totalharga" expression="totalharga+(hargaproduk*arrquantity[y])"/>
+                    </else>
+                </if>
+            </for>
+            <output expression="toFixed(totalharga,2)" newline="True"/>
+        </body>
+    </function>
+</flowgorithm>
