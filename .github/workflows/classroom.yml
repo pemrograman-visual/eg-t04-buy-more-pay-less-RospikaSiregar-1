@@ -1,0 +1,169 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: t04&#45;01
+      id: t04-45-01
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: t04&#45;01
+        setup-command: make compile
+        command: make -s test
+        input: |
+          979-8700048361
+          35.98
+          1
+          978-0439708180
+          14.15
+          3
+          979-8700048361
+          35.98
+          -1
+          978-0439708180
+          14.15
+          4
+          ---
+        expected-output: '97.07
+
+          '
+        comparison-method: exact
+        timeout: 1
+        max-score: 20
+    - name: t04&#45;02
+      id: t04-45-02
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: t04&#45;02
+        setup-command: make compile
+        command: make -s test
+        input: |
+          978-0130895929
+          50.19
+          3
+          978-0593238295
+          22.11
+          2
+          978-0130895929
+          50.19
+          10
+          978-0439708180
+          14.15
+          4
+          978-0593238295
+          22.11
+          2
+          978-0593238295
+          22.11
+          3
+          978-0439708180
+          14.15
+          -4
+          ---
+        expected-output: '771.52
+
+          '
+        comparison-method: exact
+        timeout: 1
+        max-score: 20
+    - name: t04&#45;03
+      id: t04-45-03
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: t04&#45;03
+        setup-command: make compile
+        command: make -s test
+        input: |
+          979-8700048361
+          35.98
+          1
+          978-0439708180
+          14.15
+          6
+          979-8700048361
+          35.98
+          4
+          978-0439708180
+          14.15
+          4
+          ---
+        expected-output: '310.73
+
+          '
+        comparison-method: exact
+        timeout: 1
+        max-score: 20
+    - name: t04&#45;04
+      id: t04-45-04
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: t04&#45;04
+        setup-command: make compile
+        command: make -s test
+        input: |
+          978-0130895929
+          50.19
+          3
+          978-0593238295
+          22.11
+          2
+          978-0130895929
+          50.19
+          1
+          978-0439708180
+          14.15
+          4
+          978-0593238295
+          22.11
+          2
+          978-0593238295
+          22.11
+          3
+          978-0439708180
+          14.15
+          14
+          ---
+        expected-output: '594.40
+
+          '
+        comparison-method: exact
+        timeout: 1
+        max-score: 20
+    - name: t04&#45;05
+      id: t04-45-05
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: t04&#45;05
+        setup-command: make compile
+        command: make -s test
+        input: |
+          978-0130895929
+          50.19
+          0
+          ---
+        expected-output: '0.00
+
+          '
+        comparison-method: exact
+        timeout: 1
+        max-score: 20
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        T04-45-01_RESULTS: "${{steps.t04-45-01.outputs.result}}"
+        T04-45-02_RESULTS: "${{steps.t04-45-02.outputs.result}}"
+        T04-45-03_RESULTS: "${{steps.t04-45-03.outputs.result}}"
+        T04-45-04_RESULTS: "${{steps.t04-45-04.outputs.result}}"
+        T04-45-05_RESULTS: "${{steps.t04-45-05.outputs.result}}"
+      with:
+        runners: t04-45-01,t04-45-02,t04-45-03,t04-45-04,t04-45-05
